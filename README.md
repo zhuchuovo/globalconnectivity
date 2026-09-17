@@ -26,6 +26,7 @@
 - 网页管理页（上传 / 下载 / 删除），删除仅限管理员（`appsettings.json` 中配置管理密钥）
 - 端口与管理密钥均在 `appsettings.json` 中配置，`--urls` / `ASPNETCORE_URLS` 可临时覆盖
 - Linux 一键部署 `sudo ./deploy/install.sh`：systemd 后台运行、开机自启、崩溃自动重启
+- **一行命令远程部署**：`curl -sL .../csharp/deploy/quickstart.sh | sudo bash`（自动拉取仓库、装 .NET 10、启动服务）
 - 部署后输入 `nbtserver` 打开**命令行管理面板**：启动 / 关闭 / 重启 / 设置·关闭开机自启动
   （也支持命令模式 `sudo nbtserver start|stop|restart|enable|disable|status`）
 
@@ -109,6 +110,14 @@ dotnet run -- --urls=http://0.0.0.0:9090  # 临时覆盖端口
 ### Linux 运行
 
 需要 .NET 10 SDK（Ubuntu: `sudo apt install dotnet-sdk-10.0`，或从 https://dotnet.microsoft.com/download 下载）。
+
+方式〇：一行命令一键拉取 + 部署 + 启动（推荐，见下方「一键部署」）
+
+```bash
+curl -sL https://raw.githubusercontent.com/zhuchuovo/globalconnectivity/main/csharp/deploy/quickstart.sh | sudo bash
+```
+
+脚本自动完成：克隆仓库（没装 git 时改用 tar 包）→ 检测/安装 .NET 10 SDK（装到 `~/.dotnet`，不动系统）→ 发布 + 安装 systemd 服务（**立即启动 + 开机自启 + 崩溃自动重启**）→ 安装 `nbtserver` 管理面板。装完输入 `nbtserver` 即可管理。没有 curl 时用：`wget -qO- <同上地址> | sudo bash`。
 
 方式一：开发运行（自带脚本）
 
