@@ -18,3 +18,7 @@ obj/
 nbtfiles/
 nbt_store/
 config/globalconnectivity-servers.json
+
+# 离线部署包构建产物
+csharp/nbtserver-*-offline/
+csharp/*.tar.gz

@@ -1,0 +1,14 @@
+[Unit]
+Description=NBT Structure File Server (Global Connectivity)
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/nbtserver
+ExecStart=/opt/nbtserver/NbtServer
+Restart=always
+RestartSec=3
+# 自包含部署：NbtServer 是自带 .NET 运行时的可执行文件，无需系统安装 dotnet
+# 端口在 /opt/nbtserver/appsettings.json 的 NbtServer:Urls 里配置
+
+[Install]
+WantedBy=multi-user.target
