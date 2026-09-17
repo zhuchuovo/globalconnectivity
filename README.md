@@ -1,14 +1,33 @@
-# Global Connectivity（全局互联）— NBT 结构文件管理
+# Global Connectivity（全局互联）
 
-一个由两部分组成的项目：
+> Minecraft 1.21.1 结构文件（.nbt）游戏内管理 + 云端分享模组，配套 .NET 10 服务器。
+> 仓库：https://github.com/zhuchuovo/globalconnectivity/
 
 | 目录 | 说明 |
 |---|---|
 | `neoforge/` | Minecraft **NeoForge 1.21.1** 客户端模组：游戏内 NBT 文件管理界面 |
-| `csharp/` | **C# / .NET 10** 云端服务器（可用 Visual Studio 2026 打开），存储与分发 .nbt 文件 |
+| `csharp/` | **C# / .NET 10** 云端服务器（Visual Studio 2026 可打开，Windows / Linux 通用） |
 
 模组的设计思路类似机械动力（Create）的蓝图文件夹：所有 .nbt 文件都放在游戏目录下的
 `nbtfiles/` 文件夹里，玩家在游戏内界面中浏览、导入、上传和下载。
+
+## 功能一览
+
+**模组端（游戏内）**
+
+- 按 `K` 键打开「NBT 文件管理器」，三个标签页：本地文件 / 云端下载 / 设置
+- 本地浏览 `nbtfiles/` 文件夹，列表支持滚轮、滚动条、按住拖动；.nbt 文件可直接拖入游戏窗口导入
+- 一键上传到服务器 / 从服务器列表下载，双击文件即执行对应操作
+- 服务器列表默认内置官方服务器 `47.103.169.249`（显示为「官方服务器」），可自行添加、切换、测试连接
+- 中英文界面
+
+**服务器端**
+
+- 网页管理页（上传 / 下载 / 删除），删除仅限管理员（`appsettings.json` 中配置管理密钥）
+- 端口与管理密钥均在 `appsettings.json` 中配置，`--urls` / `ASPNETCORE_URLS` 可临时覆盖
+- Linux 一键部署 `sudo ./deploy/install.sh`：systemd 后台运行、开机自启、崩溃自动重启
+- 部署后输入 `nbtserver` 打开**命令行管理面板**：启动 / 关闭 / 重启 / 设置·关闭开机自启动
+  （也支持命令模式 `sudo nbtserver start|stop|restart|enable|disable|status`）
 
 ---
 
@@ -110,13 +129,37 @@ dotnet publish/NbtServer.dll
 
 方式三：systemd 后台运行 + 开机自启（推荐，生产部署用）
 
-项目自带一键部署脚本（发布 + 安装 systemd 服务，自动后台运行、开机自启、崩溃自动重启）：
+项目自带一键部署脚本（发布 + 安装 systemd 服务，自动后台运行、开机自启、崩溃自动重启，
+并安装 `nbtserver` 管理面板命令）：
 
 ```bash
 cd csharp
 sudo ./deploy/install.sh              # 安装到 /opt/nbtserver 并立即启动
 sudo ./deploy/install.sh /srv/nbt     # 或自定义安装目录
 ```
+
+安装完成后，任意目录输入 `nbtserver` 打开命令行管理面板：
+
+```
+════════════════════════════════════════════
+        NBT 结构文件服务器 · 管理面板
+════════════════════════════════════════════
+  服务状态： ● 运行中
+  开机自启： 已开启
+  监听地址： http://0.0.0.0:8080
+  配置文件： /opt/nbtserver/appsettings.json（修改后需重启生效）
+  查看日志： journalctl -u nbtserver -f
+────────────────────────────────────────────
+    1. 启动服务器
+    2. 关闭服务器
+    3. 重启服务器
+    4. 设置开机自启动
+    5. 关闭开机自启动
+    0. 退出面板
+────────────────────────────────────────────
+```
+
+面板同样支持命令模式：`sudo nbtserver start|stop|restart|enable|disable|status`。
 
 手动执行等价步骤：
 
