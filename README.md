@@ -27,7 +27,6 @@
 - 端口与管理密钥均在 `appsettings.json` 中配置，`--urls` / `ASPNETCORE_URLS` 可临时覆盖
 - Linux 一键部署 `sudo ./deploy/install.sh`：systemd 后台运行、开机自启、崩溃自动重启
 - **一行命令远程部署**：`curl -sL .../csharp/deploy/quickstart.sh | sudo bash`（自动拉取仓库、装 .NET 10、启动服务）
-- **离线部署**：`make-offline-package.sh` 打自包含离线包（自带 .NET 运行时），scp/U盘传入无外网服务器，`install-offline.sh` 一条命令装好
 - 部署后输入 `nbtserver` 打开**命令行管理面板**：启动 / 关闭 / 重启 / 设置·关闭开机自启动
   （也支持命令模式 `sudo nbtserver start|stop|restart|enable|disable|status`）
 
@@ -191,37 +190,6 @@ systemctl disable nbtserver         # 取消开机自启
 ```
 
 临时后台运行（不用 systemd 时）：`nohup dotnet NbtServer.dll > nbt.log 2>&1 &`
-
-### 离线部署（服务器连不上 GitHub / 完全无外网）
-
-思路：在**有网的电脑**上打一个"自包含"离线包——.NET 运行时一起打进包里，服务器**无需外网、无需安装 .NET**，传进去解压一条命令装好。
-
-1. 在有网的电脑上构建离线包（需 .NET 10 SDK，Windows Git Bash / Linux / macOS 均可）：
-
-```bash
-cd csharp
-./deploy/make-offline-package.sh               # 默认 linux-x64，生成 nbtserver-linux-x64-offline.tar.gz
-./deploy/make-offline-package.sh linux-arm64   # ARM 服务器用这个
-```
-
-2. 把包传进服务器（任选其一）：
-
-```bash
-scp nbtserver-linux-x64-offline.tar.gz root@47.103.169.249:/root/
-# 或 Windows 图形工具（WinSCP / XFTP）拖拽上传；服务器完全无网时用 U 盘拷贝
-```
-
-3. 服务器上解压安装：
-
-```bash
-tar xzf nbtserver-linux-x64-offline.tar.gz
-cd nbtserver-linux-x64-offline
-sudo bash install-offline.sh          # 安装到 /opt/nbtserver，立即启动 + 开机自启
-```
-
-装完同样是 `nbtserver` 面板管理；改端口/密钥编辑 `/opt/nbtserver/appsettings.json` 后 `sudo nbtserver restart`。
-
-> 若服务器能上网、只是访问不了 GitHub：也可以在有网电脑上 `git clone` 整个仓库再 scp 上去，按方式三部署（服务器需自备 .NET 10 SDK）；离线包方案连 .NET 都不用装，最省事。
 
 ### 接口
 
