@@ -1,0 +1,24 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "globalconnectivity"
+version = "1.0.0"
+displayName = "Global Connectivity NBT Manager"
+description = '''NBT structure file manager: browse a local nbtfiles folder, import .nbt files by drag & drop, upload / download them from a community server (default: official server 47.103.169.249).'''
+authors = "globalconnectivity"
+
+[[dependencies.globalconnectivity]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.globalconnectivity]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21,1.22)"
+ordering = "NONE"
+side = "BOTH"

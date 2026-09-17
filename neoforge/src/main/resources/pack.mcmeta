@@ -1,0 +1,8 @@
+{
+    "pack": {
+        "description": "Global Connectivity resources",
+        "packs": {
+            "neoforge:resource": 34
+        }
+    }
+}

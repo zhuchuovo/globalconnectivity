@@ -1,0 +1,20 @@
+# Gradle / Java
+.gradle/
+build/
+run/
+out/
+*.class
+.idea/
+*.iml
+.vscode/
+
+# .NET
+bin/
+obj/
+.vs/
+*.user
+
+# Runtime data
+nbtfiles/
+nbt_store/
+config/globalconnectivity-servers.json

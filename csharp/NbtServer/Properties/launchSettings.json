@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NbtServer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    }
+  }
+}

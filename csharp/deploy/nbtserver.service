@@ -1,0 +1,15 @@
+[Unit]
+Description=NBT Structure File Server (Global Connectivity)
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/nbtserver
+ExecStart=/usr/bin/dotnet /opt/nbtserver/NbtServer.dll
+Restart=always
+RestartSec=3
+# 端口优先在 /opt/nbtserver/appsettings.json 的 NbtServer:Urls 里配置；
+# 也可以在这里用环境变量临时覆盖：
+# Environment=ASPNETCORE_URLS=http://0.0.0.0:9090
+
+[Install]
+WantedBy=multi-user.target
